@@ -6,14 +6,34 @@
 	<script src="./vue.js"></script>
 </head>
 <body>
-	<div id="root"></div>
+	<div id="root">
+		<h1>hello {{msg}}</h1>
+		<h1 v-text="number"></h1>
+		<div style="border: 1px solid #000">
+			<p>v-text 与 v-html区别:</p>
+			<div v-text="content"></div>
+			<div v-html="content"></div>
+		</div>
+		<div style="border: 1px solid #000">
+			<p>vue实例中的事件：点击hello变为world</p>
+			<div v-on:click="handleClick">{{content1}}</div>  <!-- v-on:可以简写为@ -->
+			<!--<div @click="handleClick">{{content1}}</div>-->
+		</div>
+	</div>
 
 	<script>
 		new Vue({
 			el:"#root",
-			template:'<h1>hello {{msg}}</h1>',
 			data:{
-				msg:"world"
+				msg:"world",
+				number:123,
+				content:"<h1>hello</h1>",
+				content1:"hello"
+			},
+			methods:{
+				handleClick:function(){
+					this.content1 = "world"
+				}
 			}
 		})
 	</script>
