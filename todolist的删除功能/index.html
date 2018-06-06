@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>组件与实例的关系</title>
+	<script src="./vue.js"></script>
+</head>
+<body>
+	<div id="root">
+		<div>
+			<input v-model="inputValue" autofocus=true/>
+			<button @click="handleSubmit">提交</button>
+		</div>
+		<ul>
+			<todo-item 
+				v-for="(item, index) of list" 
+				:key="index" 
+				:content="item"
+				:index="index"
+				@delete="handleDelete"
+			>
+
+				
+			</todo-item>
+		</ul>
+	</div>
+
+	<script>
+
+		Vue.component('todo-item',{      //定义组件 ,ver.component为全局组件
+			props:['content','index'],
+			template:'<li @click="handleClick">{{content}}</li>',    //组件也是一个实例，因而可以写事件
+			methods:{
+				handleClick:function(){
+					this.$emit('delete',this.index)
+				}
+			}
+		})
+		new Vue({
+			el:"#root",
+			data:{
+				inputValue:'',
+				list:[]
+			},
+			methods:{
+				handleSubmit:function(){
+					this.list.push(this.inputValue)
+					this.inputValue = ''  //每次提交后清空
+				},
+				handleDelete:function(index){
+					this.list.splice(index,1)
+				}
+			}
+		})
+	</script>
+</body>
+</html>
